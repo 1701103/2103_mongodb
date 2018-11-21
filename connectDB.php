@@ -1,19 +1,31 @@
-<?php
-phpinfo();
+<?php 
+//phpinfo();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+//create mongoDB connection here
+require 'phpmongodb/vendor/autoload.php';//composer require "mongodb/mongodb=^1.0.0.0"
 
-echo extension_loaded("mongo") ? "loaded\n" : "not loaded\n";
+$mongo = new MongoDB\Client('mongodb://root:SITict2103@dds-gs59a54ce1ee30b41635-pub.mongodb.singapore.rds.aliyuncs.com:3717,dds-gs59a54ce1ee30b42181-pub.mongodb.singapore.rds.aliyuncs.com:3717/admin?authSource=admin&replicaSet=mgset-300212625');
+$db = $mongo->db_team_l4m;
+$collection = $db->school;
 
-$m = new MongoClient('mongodb://localhost');
+// find everything in the collection
+$cursor = $collection->find();
 
-//$hostname = "rm-gs5py2dcox6x82w4l6o.mysql.singapore.rds.aliyuncs.com";
-//$username = "ict2103group3";
-//$dbname = "group3";
-//$password = "bcb6NbmbSmpB";
-//$mysqli = new mysqli("$hostname", "$username", "$password", "$dbname");
+// iterate through the results
+foreach ($cursor as $document) {
+    echo $document["school_name"] ;
+}
 
-// Check connection
-//if ($mysqli->connect_error) {
-//    die("Connection failed: " . $conn->connect_error);
-//}
-//echo "Connected successfully";
+// try {
+//     $mongoDbClient = new Client('mongodb://root:SITict2103@dds-gs59a54ce1ee30b41635-pub.mongodb.singapore.rds.aliyuncs.com:3717,dds-gs59a54ce1ee30b42181-pub.mongodb.singapore.rds.aliyuncs.com:3717/admin?authSource=admin&replicaSet=mgset-300212625');
+// // select a database
+//    $db = $m->mydb;
+//    echo "Database mydb selected";
+//    $collection = $db->createCollection("mycol");
+//    echo "Collection created succsessfully";
+// } catch (Exception $error) {
+//     echo $error->getMessage(); die(1);
+// }
 ?>
